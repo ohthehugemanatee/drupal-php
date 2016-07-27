@@ -1,6 +1,8 @@
 FROM alpine:3.4
 MAINTAINER Wodby <admin@wodby.com>
 
+ARG WEBROOT=html
+
 # Create user www-data
 RUN addgroup -g 82 -S www-data && \
 	adduser -u 82 -D -S -G www-data www-data
@@ -134,9 +136,9 @@ COPY 00_xdebug.ini /etc/php7/conf.d/
 COPY php-fpm.conf /etc/php7/
 
 # Create work dir
-RUN mkdir -p /var/www/html && chown -R 82:82 /var/www
-WORKDIR /var/www/html
-VOLUME /var/www/html
+RUN chown -R 82:82 /var/www
+VOLUME /var/www
+WORKDIR /var/www/$WEBROOT
 
 EXPOSE 9000
 
